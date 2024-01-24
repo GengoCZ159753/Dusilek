@@ -1,0 +1,62 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("Vyberte soustavu pro prevod (2, 8 nebo 16): ");
+        int soustava = Convert.ToInt32(Console.ReadLine());
+
+        if (soustava != 2 && soustava != 8 && soustava != 16)
+        {
+            Console.WriteLine("Neplatná volba soustavy. Program bude ukončen.");
+            return;
+        }
+
+        Console.Write("Zadejte číslo k převodu: ");
+        string vstupniCislo = Console.ReadLine();
+
+        long desitkoveCislo;
+
+        try
+        {
+            desitkoveCislo = PrevedDoDesitkove(soustava, vstupniCislo);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Chyba: {ex.Message}");
+            return;
+        }
+
+        Console.WriteLine($"Vložené číslo {vstupniCislo} ve {soustava}-kové soustavě = {desitkoveCislo} desítkově");
+    }
+
+    static long PrevedDoDesitkove(int zaklad, string cislo)
+    {
+        long desitkoveCislo = 0;
+        int mocnina = 0;
+
+        for (int i = cislo.Length - 1; i >= 0; i--)
+        {
+            int hodnota;
+            if (Char.IsDigit(cislo[i]))
+            {
+                hodnota = Convert.ToInt32(cislo[i].ToString());
+            }
+            else
+            {
+                hodnota = Char.ToUpper(cislo[i]) - 'A' + 10;
+            }
+
+            if (hodnota >= zaklad)
+            {
+                throw new ArgumentException($"Číslo obsahuje neplatnou hodnotu pro zadanou soustavu: {cislo[i]}");
+            }
+
+            desitkoveCislo += hodnota * (long)Math.Pow(zaklad, mocnina);
+            mocnina++;
+        }
+
+        return desitkoveCislo;
+    }
+}
