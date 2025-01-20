@@ -1,0 +1,11 @@
+fun main() {
+    println("Násobek\tDesítkově\tDvojkově\tŠestnáctkově")
+
+    for (i in 1..10) {
+        val nasobek = 7 * i
+        val dvojkove = Integer.toBinaryString(nasobek)
+        val sestnactkove = Integer.toHexString(nasobek).uppercase()
+
+        println("$i\t$nasobek\t\t$dvojkove\t\t$sestnactkove")
+    }
+}
